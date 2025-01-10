@@ -2,10 +2,24 @@
 
 This package contains the LangChain integration with Hyperbrowser
 
-## Installation
+## Overview
+
+[Hyperbrowser](https://hyperbrowser.ai) is a platform for running and scaling headless browsers. It lets you launch and manage browser sessions at scale and provides easy to use solutions for any webscraping needs, such as scraping a single page or crawling an entire site.
+
+Key Features:
+- Instant Scalability - Spin up hundreds of browser sessions in seconds without infrastructure headaches
+- Simple Integration - Works seamlessly with popular tools like Puppeteer and Playwright
+- Powerful APIs - Easy to use APIs for scraping/crawling any site, and much more
+- Bypass Anti-Bot Measures - Built-in stealth mode, ad blocking, automatic CAPTCHA solving, and rotating proxies
+
+For more information about Hyperbrowser, please visit the [Hyperbrowser website](https://hyperbrowser.ai) or if you want to check out the docs, you can visit the [Hyperbrowser docs](https://docs.hyperbrowser.ai).
+
+## Installation and Setup
+
+To get started with `langchain-hyperbrowser`, you can install the package using pip:
 
 ```bash
-pip install -U langchain-hyperbrowser
+pip install langchain-hyperbrowser
 ```
 
 And you should configure credentials by setting the following environment variables:
@@ -14,18 +28,10 @@ And you should configure credentials by setting the following environment variab
 
 Make sure to get your API Key from https://app.hyperbrowser.ai/
 
-## Document Loaders
+## Document Loader
 
-`HyperbrowserLoader` class exposes document loaders from Hyperbrowser.
-
-```python
-from langchain_hyperbrowser import HyperbrowserLoader
-
-loader = HyperbrowserLoader(urls="https://www.google.com")
-docs = loader.load()
-```
-
-## Usage
+The `HyperbrowserLoader` class in `langchain-hyperbrowser` can easily be used to load content from any single page or multiple pages as well as crawl an entire site.
+The content can be loaded as markdown or html.
 
 ```python
 from langchain_hyperbrowser import HyperbrowserLoader
@@ -56,3 +62,9 @@ loader = HyperbrowserLoader(
   params={"scrape_options": {"include_tags": ["h1", "h2", "p"]}}
 )
 ```
+
+## Additional Resources
+
+- [Hyperbrowser](https://hyperbrowser.ai)
+- [Hyperbrowser Python SDK](https://github.com/hyperbrowserai/python-sdk)
+- [Hyperbrowser Docs](https://docs.hyperbrowser.ai/)

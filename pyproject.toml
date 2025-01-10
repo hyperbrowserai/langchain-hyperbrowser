@@ -8,20 +8,20 @@ version = "0.1.0"
 description = "An integration package connecting Hyperbrowser and LangChain"
 authors = []
 readme = "README.md"
-repository = "https://github.com/langchain-ai/langchain"
+repository = "https://github.com/hyperbrowserai/langchain-hyperbrowser"
 license = "MIT"
 
 [tool.mypy]
 disallow_untyped_defs = "True"
 
 [tool.poetry.urls]
-"Source Code" = "https://github.com/langchain-ai/langchain/tree/master/libs/partners/hyperbrowser"
-"Release Notes" = "https://github.com/langchain-ai/langchain/releases?q=tag%3A%22hyperbrowser%3D%3D0%22&expanded=true"
+"Homepage" = "https://github.com/hyperbrowserai/langchain-hyperbrowser"
+"Source Code" = "https://github.com/hyperbrowserai/langchain-hyperbrowser"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 langchain-core = "^0.3.15"
-hyperbrowser = "^0.16.0"
+hyperbrowser = "^0.17.0"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "T201"]
