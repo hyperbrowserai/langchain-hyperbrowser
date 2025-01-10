@@ -99,7 +99,14 @@ class HyperbrowserLoader(BaseLoader):
             operation: Operation to perform, either "scrape" or "crawl".
             params: Optional params for scrape or crawl. For more information on the supported params, visit https://docs.hyperbrowser.ai/reference/sdks/python/scrape#start-scrape-job-and-wait or https://docs.hyperbrowser.ai/reference/sdks/python/crawl#start-crawl-job-and-wait
         """
-        self.api_key = api_key or get_from_env("HYPERBROWSER_API_KEY")
+        self.api_key = api_key or get_from_env(
+            "HYPERBROWSER_API_KEY", env_key="HYPERBROWSER_API_KEY"
+        )
+        if not self.api_key:
+            raise ValueError(
+                "HYPERBROWSER_API_KEY environment variable not set and no API key provided"
+            )
+
         self.operation = operation
         self.params = params or {}
 
