@@ -55,7 +55,14 @@ class HyperbrowserLoader(BaseLoader):
 
         .. code-block:: python
 
-            TODO: Example output
+            page_content='Example Domain
+
+            # Example Domain
+
+            This domain is for use in illustrative examples in documents. You may use this
+            domain in literature without prior coordination or asking for permission.
+
+            [More information...](https://www.iana.org/domains/example)' metadata={'title': 'Example Domain', 'viewport': 'width=device-width, initial-scale=1', 'sourceURL': 'https://example.com'}
 
     Async load:
         .. code-block:: python
@@ -66,7 +73,14 @@ class HyperbrowserLoader(BaseLoader):
 
         .. code-block:: python
 
-            
+            page_content='Example Domain
+
+            # Example Domain
+
+            This domain is for use in illustrative examples in documents. You may use this
+            domain in literature without prior coordination or asking for permission.
+
+            [More information...](https://www.iana.org/domains/example)' metadata={'title': 'Example Domain', 'viewport': 'width=device-width, initial-scale=1', 'sourceURL': 'https://example.com'}
     """  # noqa: E501
 
     def __init__(
@@ -95,7 +109,7 @@ class HyperbrowserLoader(BaseLoader):
             else:
                 if len(urls) > 1:
                     raise ValueError("Crawl operation can only accept a single URL")
-                self.urls = urls[0]
+                self.urls = [urls[0]]
         else:
             if isinstance(urls, str):
                 self.urls = [urls]
@@ -126,7 +140,7 @@ class HyperbrowserLoader(BaseLoader):
         """Create a Document with content and metadata."""
         return Document(page_content=content, metadata=metadata)
 
-    def _extract_content_metadata(self, data: ScrapeJobData | None):
+    def _extract_content_metadata(self, data: Union[ScrapeJobData, None]):
         """Extract content and metadata from response data."""
         content = ""
         metadata = {}
