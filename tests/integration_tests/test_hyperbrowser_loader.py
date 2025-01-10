@@ -2,7 +2,7 @@
 
 import os
 import pytest
-from langchain_hyperbrowser.hyperbrowser import HyperbrowserLoader
+from langchain_hyperbrowser.hyperbrowser_loader import HyperbrowserLoader
 
 
 @pytest.mark.skipif(

@@ -2,7 +2,7 @@
 
 import pytest
 from unittest.mock import Mock, patch
-from langchain_hyperbrowser.hyperbrowser import HyperbrowserLoader
+from langchain_hyperbrowser.hyperbrowser_loader import HyperbrowserLoader
 from hyperbrowser.models.scrape import ScrapeJobData
 
 
