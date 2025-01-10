@@ -1,6 +1,6 @@
 from importlib import metadata
 
-from langchain_hyperbrowser.hyperbrowser import HyperbrowserLoader
+from langchain_hyperbrowser.hyperbrowser_loader import HyperbrowserLoader
 
 try:
     __version__ = metadata.version(__package__)
