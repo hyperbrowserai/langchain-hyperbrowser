@@ -3,3 +3,5 @@ __pycache__
 .env
 /poetry.toml
 dist
+.pdm-build
+.pytest_cache
