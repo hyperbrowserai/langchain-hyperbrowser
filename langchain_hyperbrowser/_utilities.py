@@ -1,4 +1,4 @@
-import os  # type: ignore[import-not-found]
+import os
 from typing import Dict
 
 from hyperbrowser import ClientConfig, Hyperbrowser, AsyncHyperbrowser  # type: ignore
