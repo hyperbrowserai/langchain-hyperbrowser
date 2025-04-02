@@ -7,6 +7,8 @@ from langchain_hyperbrowser.claude_computer_use_tool import (
     HyperbrowserClaudeComputerUseTool,
 )
 from langchain_hyperbrowser.openai_cua_tool import HyperbrowserOpenAICUATool
+from langchain_hyperbrowser.crawl_tool import HyperbrowserCrawlTool
+from langchain_hyperbrowser.scrape_tool import HyperbrowserScrapeTool
 
 try:
     __version__ = metadata.version(__package__ or "langchain_hyperbrowser")
@@ -21,5 +23,7 @@ __all__ = [
     "HyperbrowserBrowserUseTool",
     "HyperbrowserClaudeComputerUseTool",
     "HyperbrowserOpenAICUATool",
+    "HyperbrowserScrapeTool",
+    "HyperbrowserCrawlTool",
     "__version__",
 ]

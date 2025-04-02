@@ -85,6 +85,73 @@ result = agent_executor.invoke({
 })
 ```
 
+### Scrape Tool
+
+The `HyperbrowserScrapeTool` can be used to scrape content from web pages. It supports both markdown and HTML output formats, along with metadata extraction.
+
+```python
+from langchain_hyperbrowser import HyperbrowserScrapeTool
+
+# Use the tool directly
+tool = HyperbrowserScrapeTool()
+result = tool.run({
+    "url": "https://example.com",
+    "scrape_options": {
+        "formats": ["markdown", "html"],
+        "include_tags": ["h1", "h2", "p"]
+    },
+    "session_options": {
+        "solve_captchas": True
+    }
+})
+
+# Or use it in an agent
+from langchain.agents import AgentExecutor, create_openai_functions_agent
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(temperature=0)
+agent = create_openai_functions_agent(llm, [tool], verbose=True)
+agent_executor = AgentExecutor(agent=agent, tools=[tool], verbose=True)
+
+result = agent_executor.invoke({
+    "input": "Scrape the content from https://example.com"
+})
+```
+
+### Crawl Tool
+
+The `HyperbrowserCrawlTool` can be used to crawl entire websites, starting from a given URL. It supports configurable page limits and scraping options.
+
+```python
+from langchain_hyperbrowser import HyperbrowserCrawlTool
+
+# Use the tool directly
+tool = HyperbrowserCrawlTool()
+result = tool.run({
+    "url": "https://example.com",
+    "max_pages": 10,
+    "scrape_options": {
+        "formats": ["markdown"],
+        "include_tags": ["h1", "h2", "p"]
+    },
+    "session_options": {
+        "solve_captchas": True
+    }
+})
+
+# Or use it in an agent
+from langchain.agents import AgentExecutor, create_openai_functions_agent
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(temperature=0)
+agent = create_openai_functions_agent(llm, [tool], verbose=True)
+agent_executor = AgentExecutor(agent=agent, tools=[tool], verbose=True)
+
+result = agent_executor.invoke({
+    "input": "Crawl the website at https://example.com and get content from up to 10 pages"
+})
+```
+
 ### Browser Use Tool
 
 The `HyperbrowserBrowserUseTool` allows you to execute tasks using a browser agent that can navigate websites, interact with elements, and extract information. This is perfect for complex web automation tasks.

@@ -1,9 +1,9 @@
 from typing import Optional, Union, Dict, Any
 from langchain_core.tools import BaseTool
-from hyperbrowser import Hyperbrowser, AsyncHyperbrowser  # type: ignore[untyped-import]
+from hyperbrowser import Hyperbrowser, AsyncHyperbrowser
 from hyperbrowser.models.extract import StartExtractJobParams
 from hyperbrowser.models.session import CreateSessionParams
-from pydantic import Field, SecretStr, model_validator
+from pydantic import BaseModel, Field, SecretStr, model_validator
 
 
 from langchain_core.callbacks import (
@@ -11,6 +11,16 @@ from langchain_core.callbacks import (
 )
 
 from ._utilities import initialize_client
+
+
+class ExtractArgs(BaseModel):
+    url: str = Field(description="The URL to extract data from")
+    schema: Optional[Union[object, Dict[str, Any]]] = Field(
+        description="Pydantic model or JSON schema for structured extraction",
+    )
+    session_options: Optional[CreateSessionParams] = Field(
+        default=None, description="Optional parameters for the browser session"
+    )
 
 
 class HyperbrowserExtractTool(BaseTool):
@@ -27,6 +37,7 @@ class HyperbrowserExtractTool(BaseTool):
     client: Hyperbrowser = Field(default=None)  # type: ignore
     async_client: AsyncHyperbrowser = Field(default=None)  # type: ignore
     api_key: SecretStr = Field(default=None)  # type: ignore
+    args_schema: type[ExtractArgs] = ExtractArgs
 
     @model_validator(mode="before")
     @classmethod
@@ -38,8 +49,7 @@ class HyperbrowserExtractTool(BaseTool):
     def _run(
         self,
         url: str,
-        extraction_prompt: Optional[str],
-        json_schema: Optional[Union[object, Dict[str, Any]]],
+        schema: Union[object, Dict[str, Any]],
         session_options: Optional[CreateSessionParams] = None,
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ):
@@ -47,7 +57,6 @@ class HyperbrowserExtractTool(BaseTool):
 
         Args:
             url: The URL to extract data from
-            extraction_prompt: A prompt describing what data to extract
             schema: Optional Pydantic model or JSON schema for structured extraction
             session_options: Optional parameters for the browser session
             run_manager: Optional callback manager for the tool run
@@ -61,8 +70,7 @@ class HyperbrowserExtractTool(BaseTool):
         # Create extract job parameters
         extract_params = StartExtractJobParams(
             urls=[url],
-            prompt=extraction_prompt,
-            schema=json_schema,
+            schema=schema,
             session_options=session_options,
         )
 
@@ -74,8 +82,7 @@ class HyperbrowserExtractTool(BaseTool):
     async def _arun(
         self,
         url: str,
-        extraction_prompt: Optional[str],
-        json_schema: Optional[Union[object, Dict[str, Any]]],
+        schema: Union[object, Dict[str, Any]],
         session_options: Optional[CreateSessionParams] = None,
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ):
@@ -83,7 +90,6 @@ class HyperbrowserExtractTool(BaseTool):
 
         Args:
             url: The URL to extract data from
-            extraction_prompt: A prompt describing what data to extract
             schema: Optional Pydantic model or JSON schema for structured extraction
             session_options: Optional parameters for the browser session
             run_manager: Optional callback manager for the tool run
@@ -97,8 +103,7 @@ class HyperbrowserExtractTool(BaseTool):
         # Create extract job parameters
         extract_params = StartExtractJobParams(
             urls=[url],
-            prompt=extraction_prompt,
-            schema=json_schema,
+            schema=schema,
             session_options=session_options,
         )
 

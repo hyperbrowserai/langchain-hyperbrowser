@@ -7,13 +7,21 @@ from hyperbrowser.models import (
     StartClaudeComputerUseTaskParams,
     CreateSessionParams,
 )
-from pydantic import Field, SecretStr, model_validator
+from pydantic import BaseModel, Field, SecretStr, model_validator
 
 from langchain_core.callbacks import (
     CallbackManagerForToolRun,
 )
 
+from langchain_hyperbrowser.common import SimpleSessionParams
+
 from ._utilities import initialize_client
+
+
+class ClaudeComputerUseArgs(BaseModel):
+    task: str = Field()
+    max_steps: Optional[int] = Field(default=None)
+    session_options: Optional[SimpleSessionParams] = Field(default=None)
 
 
 class HyperbrowserClaudeComputerUseTool(BaseTool):
@@ -29,6 +37,7 @@ class HyperbrowserClaudeComputerUseTool(BaseTool):
     client: Hyperbrowser = Field(default=None)  # type: ignore
     async_client: AsyncHyperbrowser = Field(default=None)  # type: ignore
     api_key: SecretStr = Field(default=None)  # type: ignore
+    args_schema: type[ClaudeComputerUseArgs] = ClaudeComputerUseArgs
 
     @model_validator(mode="before")
     @classmethod
@@ -40,16 +49,14 @@ class HyperbrowserClaudeComputerUseTool(BaseTool):
     def _run(
         self,
         task: str,
-        max_failures: Optional[int] = None,
         max_steps: Optional[int] = None,
-        session_options: Optional[Dict[str, Any]] = None,
+        session_options: Optional[SimpleSessionParams] = None,
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> Dict[str, Any]:
         """Execute a task using Claude Computer Use agent.
 
         Args:
             task: The task to execute (e.g. "go to Hacker News and summarize the top 5 posts")
-            max_failures: Optional maximum number of consecutive failures allowed before aborting
             max_steps: Optional maximum number of steps the agent can take to complete the task
             session_options: Optional parameters for browser session configuration
 
@@ -60,10 +67,14 @@ class HyperbrowserClaudeComputerUseTool(BaseTool):
         # Create browser use task parameters
         task_params = StartClaudeComputerUseTaskParams(
             task=task,
-            max_failures=max_failures,
             max_steps=max_steps,
             session_options=(
-                CreateSessionParams(**session_options)
+                CreateSessionParams(
+                    use_proxy=session_options.use_proxy,
+                    proxy_country=session_options.proxy_country,
+                    solve_captchas=session_options.solve_captchas,
+                    adblock=session_options.adblock,
+                )
                 if session_options is not None
                 else None
             ),
@@ -79,16 +90,14 @@ class HyperbrowserClaudeComputerUseTool(BaseTool):
     async def _arun(
         self,
         task: str,
-        max_failures: Optional[int] = None,
         max_steps: Optional[int] = None,
-        session_options: Optional[Dict[str, Any]] = None,
+        session_options: Optional[SimpleSessionParams] = None,
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> Dict[str, Any]:
         """Execute a task using Claude Computer Use agent.
 
         Args:
             task: The task to execute (e.g. "go to Hacker News and summarize the top 5 posts")
-            max_failures: Optional maximum number of consecutive failures allowed before aborting
             max_steps: Optional maximum number of steps the agent can take to complete the task
             session_options: Optional parameters for browser session configuration
 
@@ -99,10 +108,14 @@ class HyperbrowserClaudeComputerUseTool(BaseTool):
         # Create browser use task parameters
         task_params = StartClaudeComputerUseTaskParams(
             task=task,
-            max_failures=max_failures,
             max_steps=max_steps,
             session_options=(
-                CreateSessionParams(**session_options)
+                CreateSessionParams(
+                    use_proxy=session_options.use_proxy,
+                    proxy_country=session_options.proxy_country,
+                    solve_captchas=session_options.solve_captchas,
+                    adblock=session_options.adblock,
+                )
                 if session_options is not None
                 else None
             ),

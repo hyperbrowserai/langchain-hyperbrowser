@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "langchain-hyperbrowser"
-version = "0.4.0"
+version = "0.4.1"
 description = "An integration package connecting Hyperbrowser and LangChain"
 authors = []
 readme = "README.md"
@@ -22,6 +22,7 @@ disallow_untyped_defs = "True"
 python = ">=3.9,<4.0"
 langchain-core = "^0.3.15"
 hyperbrowser = "^0.39.0"
+pydantic = "^2.11.1"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "T201"]
@@ -60,3 +61,10 @@ ruff = "^0.5"
 
 [tool.poetry.group.typing.dependencies]
 mypy = "^1.10"
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+langchain = "^0.3.22"
+langchain-openai = "^0.3.11"
+langgraph = "^0.3.23"
+pydantic = "^2.11.1"
+
